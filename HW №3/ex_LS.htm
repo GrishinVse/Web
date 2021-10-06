@@ -1,0 +1,14 @@
+<script>
+function fsave(){
+	v1 = document.getElementById('v1').value
+    localStorage.setItem('v1',v1)	
+}
+function fload(){
+  v = localStorage.getItem('v1')
+  //alert(v)	
+  document.getElementById('v1').value = v
+}
+</script>
+<input id='v1' value='111'>
+<button onclick='fsave()'>Save</button>
+<button onclick='fload()'>Load</button>

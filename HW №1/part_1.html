@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>Order</title>
+        <link rel="stylesheet" href="part_1.css" type="text/css">
+        <h1>Simple Order Feedback Form</h1>
+    </head>
+    <body>
+        <meta charset="UTF-8">
+        <h3>Enter details of your order in this form</h3>
+        <form>
+            <div class="container">
+                <h4>Your Name:</h4>
+                <input type="text" name="name" placeholder="Enter your name here"><br>
+            </div>
+            <div class="container">
+
+            </div>
+
+            <div class="container">
+                <h4>Email:</h4>
+                <input type="email" name="email" placeholder="Enter your email here"><br>
+            </div>
+
+            <div class="container">
+                <h4>Order ID:</h4>
+                <input type="number" name="order_id" placeholder="Enter your order ID here" min="1" max="999999"><br>
+            </div>
+            
+            <div class="container">
+                <h4>Order Delivery Date:</h4>
+                <input type="date" name="delivery_date"><br>  
+            </div>
+
+            <div class="container">
+                <!--Выпадающее меню-->
+                <h4>Rate your Delivery</h4>
+                <select name="delivery_rate">
+                    <option value="1">Very bad</option> 
+                    <option value="2">Bad</option>
+                    <option value="3">Normal</option>
+                    <option value="4">Good</option>
+                    <option value="5" selected>Excellent</option>
+                </select>
+            </div>
+
+            <div class="container">
+                <!--Переключатели-->
+                <h4>Would you recommend our shop to your friends/relatives?</h4>
+                <p><input type="radio" name="switch_yes" value="yes">Yes!	&#128513;</p>
+                <p><input type="radio" name="switch_no" value="no">No &#128555;</p>
+            </div>
+            
+            <div class="container">
+                <h4>&#8681; Write your wishes here &#8681;</h4>
+                <textarea name="comment_area" cols="40" rows=3" placeholder="Area for your complaints and suggestions"></textarea>
+            </div>       
+            
+            <div class="container">
+                <br>
+                <input type="button" value="Send Form" onclick="executeJS()">
+            </div>
+            <script type="text/javascript">
+                function executeJS() {
+                    var user_name = document.getElementsByName("name")[0].value;
+                    var user_email = document.getElementsByName("email")[0].value;
+                    var user_orderId = document.getElementsByName("order_id")[0].value;
+                    var user_deliveryDate = document.getElementsByName("delivery_date")[0].value;
+                    var user_deliveryRate = document.getElementsByName("delivery_rate")[0].value;
+                    var user_recommend = "Not Stated!"
+
+                    if (document.getElementsByName("switch_yes")[0].checked === true) {
+                        user_recommend = document.getElementsByName("switch_yes")[0].value;
+                    } 
+
+                    if (document.getElementsByName("switch_no")[0].checked === true) {
+                        user_recommend = document.getElementsByName("switch_no")[0].value;
+                    }
+
+                    var user_comment = document.getElementsByName("comment_area")[0].value;
+                    var result = "User Name: " + user_name + 
+                                 "\nUser Email: " + user_email +  
+                                 "\nUser Order ID: " + user_orderId + 
+                                 "\nDelivery Date: " + user_deliveryDate + 
+                                 "\nDelivery Rate: " + user_deliveryRate + 
+                                 "\nWould user recommend: " + user_recommend + 
+                                 "\nUser Comment: " + user_comment 
+                    //alert(result);
+
+                    document.body.innerHTML = "<h1>Completed Form<h1><h3>" + 
+                                 "<br>User Name: " + user_name + 
+                                 "<br>User Email: " + user_email +  
+                                 "<br>User Order ID: " + user_orderId + 
+                                 "<br>Delivery Date: " + user_deliveryDate + 
+                                 "<br>Delivery Rate: " + user_deliveryRate + 
+                                 "<br>Would user recommend: " + user_recommend + 
+                                 "<br>User Comment: " + user_comment + "</h3>"
+                }
+            </script>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>HW 16.09</title>
+        <link rel="stylesheet" href="part_2.css" type="text/css">
+        <h3>№3.	В окне 3 элемента: 2 элемента для ввода текста и кнопка. <br> 
+            Вводится 2 числа. По нажатию кнопки числа меняются местами</h3>
+    </head>
+    <body>
+        <meta charset="UTF-8">        
+        <input type="text" name="num_1" placeholder="Enter first number" onchange="getValSmart(this)" value="">
+        <input type="text" name="num_2" placeholder="Enter second number" onchange="getValSmart(this)" value="">
+        
+        <br>
+        <br>
+        <input type="button" value="Press me" onclick="swapNumbersSmart()">
+        <script type="text/javascript">
+            var num_1 = 'none'
+            var num_2 = 'none'
+            
+            function getValSmart(val) {
+                if (val.getAttribute("name") === 'num_1'){
+                    num_1 = document.getElementsByName(val.getAttribute("name"))[0].value;
+                }
+                if (val.getAttribute("name") === 'num_2'){
+                    num_2 = document.getElementsByName(val.getAttribute("name"))[0].value;
+                }
+            }
+
+            function swapNumbersSmart() {                
+                document.getElementsByName("num_1")[0].value = num_2;
+                document.getElementsByName("num_2")[0].value = num_1;
+            }
+        </script>
+    </body>
+</html>
