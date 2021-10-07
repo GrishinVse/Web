@@ -19,15 +19,16 @@ user_recommend: 'Yes',
 user_comment: 'kruto'
 }
 ]
-
+// Get
 app.get('/data', (req, res) => {
 res.json(data).status(200)
 })
-
+// Post
 app.post('/data', (req, res) => {
 data.push({id: data.length+1,...req.body})
 res.json(data).status(200)
 })
+// Delete
 app.delete('/data/:id', (req, res) => {
 data = data.filter(el=> el.id != req.params.id)
 res.json(data).status(200)

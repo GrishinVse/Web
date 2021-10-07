@@ -1,168 +1,18 @@
 <html>
     <head>
-        <link rel="stylesheet" href="hw4.css" type="text/css">
+        <link rel="stylesheet" href="css/hw4.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
         <title>HW 30.09</title>
         <h3>Выполнил студент группы ПИ19-2 Гришин Всеволод</h3>
         <h3>Simple Order Feedback Form</h1>
     </head>
     <body>
-        <script type="text/javascript" id="for_generator">
-            function executeJS(event) {
-                event.preventDefault();
-
-                let gen_form = document.querySelector("form[id=generated_form]");
-
-                let user_name = document.getElementsByName("name")[0].value;
-                let user_email = document.getElementsByName("email")[0].value;
-                let user_orderId = document.getElementsByName("order_id")[0].value;
-                let user_deliveryDate = document.getElementsByName("delivery_date")[0].value;
-                let user_deliveryRate = document.getElementsByName("delivery_rate")[0].value;
-
-                let user_recommend = 'None';
-                if (document.getElementById("s_yes").checked) {
-                    user_recommend = "Yes"
-                }
-                if (document.getElementById("s_no").checked) {
-                    user_recommend = "No"
-                }
-
-                let user_comment = document.getElementsByName("comment_area")[0].value;                
-
-                gen_form.innerHTML = "<h2>Completed Form<h2><h3>" + 
-                             "User Name: " + user_name + 
-                             "<br>User Email: " + user_email +  
-                             "<br>User Order ID: " + user_orderId + 
-                             "<br>Delivery Date: " + user_deliveryDate + 
-                             "<br>Delivery Rate: " + user_deliveryRate + 
-                             "<br>Would user recommend: " + user_recommend + 
-                             "<br>User Comment: " + user_comment + "</h3>"
-                
-                let form_json = {
-                 user_name,
-                 user_email,
-                 user_orderId,
-                 user_deliveryDate,
-                 user_deliveryRate,
-                 user_recommend,
-                 user_comment
-                }
-                console.log(form_json)
-                
-                let forms_table = document.getElementById("forms_table")
-                
-                /*
-                document.querySelector('td#name_form_form').value = user_name
-                document.querySelector('td#email_form_form').value = user_email
-                document.querySelector('td#orderid_form_form').value = user_orderId
-                document.querySelector('td#date_form_form').value = user_deliveryDate
-                */
-
-                console.log(document.getElementById("name_form_form"))
-                document.getElementById("name_form_form").textContent = user_name
-                document.getElementById("email_form_form").textContent = user_email
-                document.getElementById("orderid_form_form").textContent = user_orderId
-                document.getElementById("date_form_form").textContent = user_deliveryDate
-                
-                // <td id="name_form_form"><p>Val 3</p></td>
-            }
-        </script>
-        <script type="text/javascript" id="save_load">
-            function fsave(){
-                user_name = document.getElementsByName("name")[0].value;
-                user_email = document.getElementsByName("email")[0].value;
-                user_orderId = document.getElementsByName("order_id")[0].value;
-                user_deliveryDate = document.getElementsByName("delivery_date")[0].value;
-                user_deliveryRate = document.getElementsByName("delivery_rate")[0].value;
-
-                user_recommend = 'None';
-                if (document.getElementById("s_yes").checked) {
-                    user_recommend = "Yes"
-                }
-                if (document.getElementById("s_no").checked) {
-                    user_recommend = "No"
-                }
-
-                user_comment = document.getElementsByName("comment_area")[0].value;
-
-                localStorage.setItem('user_name', user_name);
-                localStorage.setItem('user_email', user_email);
-                localStorage.setItem('user_orderId', user_orderId);
-                localStorage.setItem('user_deliveryDate', user_deliveryDate);
-                localStorage.setItem('user_deliveryRate', user_deliveryRate);
-                localStorage.setItem('user_recommend', user_recommend);
-                localStorage.setItem('user_comment', user_comment);
-            }
-
-            function fload(){
-                user_name = localStorage.getItem('user_name');
-                user_email = localStorage.getItem('user_email');
-                user_orderId = localStorage.getItem('user_orderId');
-                user_deliveryDate = localStorage.getItem('user_deliveryDate');
-                user_deliveryRate = localStorage.getItem('user_deliveryRate');
-                user_recommend = localStorage.getItem('user_recommend');
-                user_comment = localStorage.getItem('user_comment');
-                
-                document.getElementsByName("name")[0].value = user_name;
-                document.getElementsByName("email")[0].value = user_email;
-                document.getElementsByName("order_id")[0].value = user_orderId;
-                document.getElementsByName("delivery_date")[0].value = user_deliveryDate;
-                document.getElementsByName("delivery_rate")[0].value = user_deliveryRate;
-
-                if (user_recommend == "Yes") {
-                    document.getElementById("s_yes").checked = true;
-                }
-                if (user_recommend == "No") {
-                    document.getElementById("s_no").checked = true;
-                }
-
-                document.getElementsByName("comment_area")[0].value = user_comment;
-            }
-        </script>
-        <script type="text/javascript" id="save_load">
-            function fServerSave(){
-                let user_recommend = 'None';
-                if (document.getElementById("s_yes").checked) {
-                    user_recommend = "Yes"
-                }
-                if (document.getElementById("s_no").checked) {
-                    user_recommend = "No"
-                }
-
-                sessionStorage.setItem('user_name', document.getElementsByName("name")[0].value);
-                sessionStorage.setItem('user_email', document.getElementsByName("email")[0].value);
-                sessionStorage.setItem('user_orderId', document.getElementsByName("order_id")[0].value);
-                sessionStorage.setItem('user_deliveryDate', document.getElementsByName("delivery_date")[0].value);
-                sessionStorage.setItem('user_deliveryRate', document.getElementsByName("delivery_rate")[0].value);
-                sessionStorage.setItem('user_recommend', user_recommend);
-                sessionStorage.setItem('user_comment', document.getElementsByName("comment_area")[0].value);
-            }
-
-            function fServerLoad(){
-                user_name = sessionStorage.getItem('user_name');
-                user_email = sessionStorage.getItem('user_email');
-                user_orderId = sessionStorage.getItem('user_orderId');
-                user_deliveryDate = sessionStorage.getItem('user_deliveryDate');
-                user_deliveryRate = sessionStorage.getItem('user_deliveryRate');
-                user_recommend = sessionStorage.getItem('user_recommend');
-                user_comment = sessionStorage.getItem('user_comment');
-                
-                document.getElementsByName("name")[0].value = user_name;
-                document.getElementsByName("email")[0].value = user_email;
-                document.getElementsByName("order_id")[0].value = user_orderId;
-                document.getElementsByName("delivery_date")[0].value = user_deliveryDate;
-                document.getElementsByName("delivery_rate")[0].value = user_deliveryRate;
-                
-                if (user_recommend == "Yes") {
-                    document.getElementById("s_yes").checked = true;
-                }
-                if (user_recommend == "No") {
-                    document.getElementById("s_no").checked = true;
-                }
-
-                document.getElementsByName("comment_area")[0].value = user_comment;
-            }
-        </script>
         <meta charset="UTF-8">
+        
         <table width=100%>
             <tr>
                 <td valign="top" id="left_column">
@@ -209,20 +59,16 @@
                         </div>
                         <p><input type="submit" class="ani_button" value="Send Form"></p>
                         <div class="column" id="save_load">
-                            <h3>Save results</h3>
                             <div class="row">
-                                <p>Using Local Storage</p>
+                                <p>Save results Using Local Storage</p>
                                     <input type="button" value="Save Info" class="ani_button" onclick="fsave()">
                                     <input type="button" value="Load Info" class="ani_button" onclick="fload()">
-                                <p>Using Server</p>
-                                    <input type="button" value="Save Info" class="ani_button" onclick="fServerSave()">
-                                    <input type="button" value="Load Info" class="ani_button" onclick="fServerLoad()">
+                                
+                                <p><input type="button" value="Get JSON" class="ani_button" onclick="tableToJson()"></p>
                             </div>
                             
-                        </div>                
-                        
-            
-                        
+                        </div>
+
                     </form>
                     <form id="generated_form"></form>
                 </td>
@@ -231,7 +77,7 @@
                     <table id="forms_table">
                         <caption>Таблица созданных форм</caption>
                         <tr id="head">
-                            <th>Имя</th>
+                            <th>Name</th>
                             <th>Email</th>
                             <th>Order ID</th>
                             <th>Date</th>
@@ -246,8 +92,24 @@
                                 <input type="button" title="Delete" value="Delete" onclick="deleteForm()"></p></td>
                         </tr>
                     </table>
+                    <h3>Table of created forms</h3>
+                    
+                    <table id="resTbl" class="display">
+                        <thead>
+                        <tr>
+                            <th width="15%">Name</th>
+                            <th width="15%">Email</th>
+                            <th width="10%">Order ID</th>
+                            <th width="5%">Date</th>
+                            <th width="5%"></th>
+                        </tr>
+                    </thead>
+                    </table>
+
                 </td>
             </tr>
         </table>
+
+        <script type="text/javascript" src="javascript.js"></script>
     </body>
 </html>
