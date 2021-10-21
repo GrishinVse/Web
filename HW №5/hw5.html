@@ -90,24 +90,6 @@
                 </td>
 
                 <td valign="top" id="right_column">
-                    <table id="forms_table">
-                        <caption>Таблица созданных форм</caption>
-                        <tr id="head">
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                        <tr>
-                            <td id="name_form_form"></td>
-                            <td id="email_form_form"></td>
-                            <td id="orderid_form_form"></td>
-                            <td id="date_form_form"></td>
-                            <td><p><input type="button" title="Edit" value="Edit" onclick="editForm()">
-                                <input type="button" title="Delete" value="Delete" onclick="deleteForm()"></p></td>
-                        </tr>
-                    </table>
                     <h3>Table of created forms</h3>
                     
                     <table id="resTbl" class="display">
@@ -121,7 +103,9 @@
                         </tr>
                     </thead>
                     </table>
-
+                    <div id="load_button">
+                        <input id="loadFromServer" type="button" value="Загрузить данные в таблицу" onclick="getFromServer()">
+                    </div>
                 </td>
             </tr>
         </table>
@@ -130,4 +114,4 @@
     </body>
 </html>
 
-<!-- http://localhost:81/vsev/server.php-->
+<!-- http://localhost:81/vsev/server.php -->

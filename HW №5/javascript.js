@@ -1,14 +1,5 @@
 /// <reference path="../typings/globals/jquery/index.d.ts" />
 let res_table = $("#resTbl").DataTable({ "ordering": false, "searching": false , "lengthChange": false});
-console.log(res_table)
-/*
-$( "input#example" )
-  .keyup(function() {
-    var value = $( this ).val();
-    $( "p#example" ).text( value );
-  })
-  .keyup();
-*/
 
 function addRow(name, email, orderId, date) {
     let formData = [name, email, orderId, date];
@@ -67,14 +58,7 @@ function executeJS(event) {
      user_recommend,
      user_comment
     }
-    console.log(form_json)
-    
-    let forms_table = document.getElementById("forms_table")
-
-    document.getElementById("name_form_form").textContent = user_name
-    document.getElementById("email_form_form").textContent = user_email
-    document.getElementById("orderid_form_form").textContent = user_orderId
-    document.getElementById("date_form_form").textContent = user_deliveryDate
+    //console.log(form_json)
 
     addRow(user_name, user_email, user_orderId, user_deliveryDate)
 }
@@ -147,33 +131,71 @@ function tableToJson() {
         }
         data.push(line);
     }
-    alert(JSON.stringify(data));
-    document.getElementById("all_json").innerHTML = JSON.stringify(data)
+    console.log(JSON.stringify(data));
+    return JSON.stringify(data)
 }
 
 function tableFromJson(line) {
-    while (table.data().length > 0) {
-        table.row(0).remove().draw(false);
+    console.log(res_table.data().length)
+    while (res_table.data().length > 0) {
+        res_table.row(0).remove().draw(false);
     }
     let parsed = JSON.parse(line)
+    console.log("tableFromJson : " + parsed)
     for (let i = 0; i < parsed.length; i++) {
         let vals = []
         for (let key in parsed[i]) {
             vals.push(parsed[i][key]);
         }
-        vals.push("<button class='delbtn' onclick='delRow(this)'></button>")
-        table.row.add(vals).draw(false);
+        vals.push("<button class='delete_button' onclick='delRow(this)'></button>")
+        res_table.row.add(vals).draw(false);
     }
 }
 
 function sendToServer() {
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/vsev/server.php',
+        url: 'http://localhost:81/vsev/server.php',
         dataType: 'json',
-        data: { text: tableToJson() },
+        data: { flag: 0, text: tableToJson() },
+        /*success: function (ans) {
+            console.log("sendToServer : " + ans)
+            tableFromJson(ans);
+        }*/
+    });
+}
+
+function getFromServer() {
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:81/vsev/server.php',
+        dataType: 'json',
+        data: { flag: 1 },
         success: function (ans) {
+            //alert(ans);
             tableFromJson(ans);
         }
     });
+}
+
+function getFromServer3() {
+    $.get('http://localhost:81/vsev/server.php', function (ans) {
+            //var oJsonResponse = $.parseJSON(ans);
+            console.log(ans)
+            //tableFromJson(ans);
+        
+        });
+}
+
+function getFromServer2() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:81/vsev/server.php/getFeed',
+        //dataType: 'json',
+        success: function (ans) {
+            //var oJsonResponse = $.parseJSON(ans);
+            console.log(ans)
+            //tableFromJson(ans);
+        }
+      });
 }

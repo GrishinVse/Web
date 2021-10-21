@@ -88,6 +88,8 @@ td#right_column {
     background-color: #99958f81;
     width: 50%;
     border-radius: 10px;
+
+    position:relative;
 }
 
 td#right_column table{
@@ -116,4 +118,15 @@ td#right_column table tr#head th{
 
 table#forms_table {
     display: none;
+}
+
+div#load_button {
+    display: flex;	
+    justify-content: center;
+    align-items: center;
+    bottom:0;
+    left: 30%;
+    margin-bottom: 10px;
+
+    position: absolute;
 }
