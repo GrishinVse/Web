@@ -1,0 +1,131 @@
+body {
+    background-image: url(background.gif);
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+
+    padding:0;
+    margin:0;
+}
+
+form {
+    text-align: center;
+    align-items: center;
+}
+
+
+.row {
+    display: inline-table;
+    align-items: center;
+}
+
+h3 {
+    font-family: Helvetica;
+    text-align: center;
+    color: #ffffff;
+}
+
+p {
+    color: #044e1d;
+    font-family: Helvetica;
+    text-align: center;
+    font-weight: bold;
+}
+
+form#main_form input[type="text"], input[type="email"], input[type="number"], input[type="date"], select[name="delivery_rate"]{
+    border-radius:5px; 
+}
+
+form#main_form textarea{
+    border-radius:5px; 
+    resize: none;
+}
+
+input[type="radio"] {
+    width: 20px;
+}
+
+input[type="submit"] {
+    text-align: center;
+    background-color: #1d2a47;
+    font-family: Palatino Linotype;
+    font-size: 25px;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 150px;
+}
+
+input[type="submit"]:hover { 
+    background-color: #133c96b0
+    
+}
+
+.ani_button:hover {
+    transform: translateY(-3px);
+    transition: all 0.3s ease 0.2s;
+}
+
+input[type="button"] {
+    text-align: center;
+    background-color: #3b2730;
+    font-family: Palatino Linotype;
+    font-size: 15px;
+    color: #e5dfe9;
+    border-radius: 10px;
+}
+
+input[type="button"]:hover { 
+    background-color: #b38e9e;
+}
+
+td#left_column {
+    background-color: #deb8873b;
+    width: 50%;
+    border-radius: 10px;
+}
+
+td#right_column {
+    background-color: #99958f81;
+    width: 50%;
+    border-radius: 10px;
+
+    position:relative;
+}
+
+td#right_column table{
+    background-color: #ece6dc;
+    width: 95%;
+    height: fit-content;
+    border-radius: 10px;
+    text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td#right_column table tr#head th{
+    background-color: #a5acb385;
+    color: #000000;
+    border-radius: 10px;
+}
+
+.delete_button {
+    height: 20px;
+    width: 20px;
+    background-image: url(delele_button.png);
+    background-size: contain;
+}
+
+table#forms_table {
+    display: none;
+}
+
+div#load_button {
+    display: flex;	
+    justify-content: center;
+    align-items: center;
+    left: 30%;
+    margin-bottom: 10px;
+
+    position: absolute;
+}
