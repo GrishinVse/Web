@@ -124,8 +124,10 @@ div#load_button {
     display: flex;	
     justify-content: center;
     align-items: center;
-    left: 30%;
-    margin-bottom: 10px;
+}
 
-    position: absolute;
+div#canvas {
+    display: flex;	
+    justify-content: center;
+    align-items: center;
 }

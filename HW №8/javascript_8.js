@@ -1,8 +1,8 @@
 /// <reference path="../typings/globals/jquery/index.d.ts" />
 let res_table = $("#resTbl").DataTable({"searching": false , "lengthChange": false, "iDisplayLength" : 100});
 
-data_id = 916 // dataset id
-api_key = 'dskfsjf' // your key
+data_id = 916
+api_key = '897c6a1118f1af1f6cf53f680398256f'
 api_url = `https://apidata.mos.ru/v1/datasets/${data_id}/rows?api_key=${api_key}`
 
 console.log(api_url)
@@ -16,6 +16,7 @@ function getFromApi() {
 
 function DataFromJSON(data) {
     key_names = 'global_id|Address|Capacity'
+    let coordinates_list = []
     for (let el = 0; el < data.length; el++) {
         let parsed = data[el]["Cells"]
         let keys = Object.keys(parsed);
@@ -34,7 +35,7 @@ function DataFromJSON(data) {
                 console.log("Key = " + keys[i])
                 */
                 console.log("Value = "+ parsed[keys[i]]["coordinates"])
-                
+                coordinates_list.push(parsed[keys[i]]["coordinates"])
                 vals.push(parsed[keys[i]]["coordinates"]);
                 }
             }
@@ -43,6 +44,7 @@ function DataFromJSON(data) {
         res_table.row.add(vals).draw(false);
     }
     alert("Загрузка данных закончилась")
+    localStorage.setItem('coordinates_list', JSON.stringify(coordinates_list));
     let json_file = tableToJson()
     localStorage.setItem('myStorage', JSON.stringify(json_file));
 }
@@ -88,12 +90,59 @@ function tableFromJson(line) {
     }
 }
 
+function getCoordinates() {
+    var canvas = document.getElementById("dots");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    var ctx = canvas.getContext("2d");
 
-/*
-example_data = [{"global_id":2757725,"Number":1,"Cells":{"Name":"Велосипедная парковка № 37124 «Гимназия № 1506»","global_id":2757725,"Photo":"4b2327b3-55af-4ff1-ab55-786c1d199557","AdmArea":"Северо-Восточный административный округ","District":"район Северное Медведково","DepartmentalAffiliation":"Департамент транспорта и развития дорожно-транспортной инфраструктуры города Москвы","Address":"Широкая улица, дом 1А","Capacity":10,"ObjectOperOrgName":"ГКУ Центр организации дорожного движения Правительства Москвы","ObjectOperOrgPhone":[{"OperationOrganizationPhone":"(495) 361-78-07"}],"geoData":{"coordinates":[37.650781,55.889628],"type":"Point"}}}]
+    let coordinates_list = JSON.parse(localStorage.getItem('coordinates_list'));
+    
+    dmin0 = 37.15; dmax0=37.93; dd = dmax0-dmin0  // по X
+    wmin0 = 55.50; wmax0=55.999; wd = wmax0-wmin0; // по Y
+    
+    /*
+    dmin0 = 37.35; dmax0=37.87; dd = dmax0-dmin0  // по X
+    wmin0 = 55.56; wmax0=55.893; wd = wmax0-wmin0; // по Y
+    */
+    kw = 10000/90;  // км/градус по меридиану 
+    wkm = 50 //wd*kw  	// север-юг 42 км 
+    kd = kw*Math.cos(((wmax0+wmin0)/2)*Math.PI/180) // км/градус по параллели 
+    dkm = 50 //kd*dd     // восток-запад в км  32
+    kkm = dkm/wkm   // пропорция прям-ка (<1)
+ 
+    ymax = 540; xmax = Math.round(ymax * kkm);
+    ky = ymax/(wmax0-wmin0); kx=xmax/(dmax0-dmin0)
+    function kY(w){return -Math.round(ky*(w-wmin0))} // широта
+    function kX(d){return Math.round(kx*(d-dmin0))} // долгота
 
-DataFromJSON(example_data)
-*/
+    offset_x = -50;
+    offset_y = 500;
+
+    with (ctx) {
+        strokeStyle = "#F00";
+        for (el in coordinates_list) {
+            console.log(`X = ${coordinates_list[el][0]} | Y = ${coordinates_list[el][1]}`);
+            x = kX(coordinates_list[el][0]);
+            y = kY(coordinates_list[el][1]);
+            //console.log(`X = ${x} | Y = ${y}`);
+            //console.log(typeof(x), typeof(y))
+            beginPath()
+                ctx.arc(x+offset_x,y+offset_y, 2, 0, Math.PI*2);
+            stroke()
+        }
+        dx =  Math.round(5*xmax/dkm) // dkm - xmax, 5 - x
+		dy =  Math.round(5*ymax/wkm) // dkm - xmax, 5 - x
+		strokeStyle = "#000"; // цвет линий
+		beginPath()
+		for (var i=dx;i<xmax;i+=dx){ // шкала 0x
+			moveTo(i,0); lineTo(i,-6); stroke()
+		}
+		for (var i=dy;i<ymax;i+=dy){ // шкала 0y
+			moveTo(0,-i); lineTo(6,-i); stroke()
+		}
+    }
+}
 
 function delRow(value) {
     $('#resTbl').DataTable().row(value.parentElement.parentElement.rowIndex - 1).remove().draw(false);
