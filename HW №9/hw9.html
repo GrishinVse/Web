@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/hw9.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+        <title>HW №9</title>
+        <h3>Выполнил студент группы ПИ19-2 Гришин Всеволод</h3>
+        <h3>Canvas</h3>
+        <h3>Использовал данные о велопарковках Москвы: <a target="_blank" href="https://data.mos.ru/opendata/7704786030-veloparkovki">данные</a></h3>
+    </head>
+    <body>
+        <meta charset="UTF-8">
+        <table width=100%>
+            <tr>
+                <td valign="top" id="right_column">
+                    <h3>Table of created forms</h3>
+                    
+                    <table id="resTbl" class="display">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th width="20%">Address</th>
+                            <th width="5%">Capacity</th>
+                            <th width="20%">Coordinates</th>
+                            <th width="5%"></th>
+                        </tr>
+                    </thead>
+                    </table>
+                    
+                </td>
+            </tr>
+        </table>
+        <div id="load_button">
+            <input id="loadFromServer" type="button" value="Загрузить данные в таблицу (API)" onclick="getFromApi()">
+            <input id="loadFromFile" type="button" value="Загрузить данные в таблицу (Файл)" onclick="getFromFile()">
+        </div>
+        <p></p>
+        <p></p>
+        <p></p>
+
+        <table width=100%>
+            <tr>
+                <td>
+                    <div id="canvas">
+                        <canvas width="500" height="500" id='dots' style="border: 1px solid blue;"></canvas>
+                    </div>
+                    <div id="canvas">
+                        <input id="drawCanvas" type="button" value="Отобразить точки из API" onclick="getCoordinates()">
+                    </div>
+                </td>
+                <td>
+                    <div id="canvas">
+                        <canvas width="500" height="500" id='genDots' style="border: 1px solid red;"></canvas>
+                    </div>
+                    <div id="canvas">
+                        <input id="drawCanvas" type="button" value="Отобразить сгенерированные точки" onclick="genData()">
+                        <input type="button" value="Очистить поле" onclick="clearArea()">
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript" src="javascript_9.js"></script>
+    </body>
+</html>
