@@ -17,6 +17,7 @@ function getFromApi() {
 function DataFromJSON(data) {
     key_names = 'global_id|Address|Capacity'
     let coordinates_list = []
+    let districts = new Map();
     for (let el = 0; el < data.length; el++) {
         let parsed = data[el]["Cells"]
         let keys = Object.keys(parsed);
@@ -38,12 +39,23 @@ function DataFromJSON(data) {
                 coordinates_list.push(parsed[keys[i]]["coordinates"])
                 vals.push(parsed[keys[i]]["coordinates"]);
                 }
+                if ('District'.includes(keys[i])) {
+                    let district = parsed[keys[i]]
+                    console.log("District Value = "+ district)
+                    if (districts.has(district)) {
+                        let currVal = districts.get(district)
+                        districts.set(district, currVal+1)
+                    } else {
+                        districts.set(district, 1)
+                    }
+                }
             }
         }
         vals.push("<button class='delete_button' onclick='delRow(this)'></button>")
         res_table.row.add(vals).draw(false);
     }
     alert("Загрузка данных закончилась")
+    localStorage.setItem('districts', JSON.stringify(Array.from(districts.entries())));
     localStorage.setItem('coordinates_list', JSON.stringify(coordinates_list));
     let json_file = tableToJson()
     localStorage.setItem('myStorage', JSON.stringify(json_file));
@@ -141,6 +153,20 @@ function getCoordinates() {
 		for (var i=dy;i<ymax;i+=dy){ // шкала 0y
 			moveTo(0,-i); lineTo(6,-i); stroke()
 		}
+    }
+}
+
+let stat_table = $("#statTbl").DataTable();
+function getStat() {
+    let districts = new Map(JSON.parse(localStorage.getItem('districts')));
+    console.log(stat_table)
+    for (let key of districts.keys()) {
+        let district_vals = []
+        district_vals.push(key)
+        district_vals.push(districts.get(key))
+        console.log(district_vals)
+        
+        stat_table.row.add(district_vals).draw(false);
     }
 }
 

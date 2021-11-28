@@ -50,6 +50,23 @@
             <canvas width="500" height="500" id='dots' style="border: 1px solid blue;"></canvas>
             <input id="drawCanvas" type="button" value="Отобразить точки" onclick="getCoordinates()">
         </div>
+        <div id="stat">
+            <table width=100%>
+                <tr>
+                    <td>
+                        <table id="statTbl">
+                        <thead>
+                            <tr>
+                                <th width="60%">District</th>
+                                <th width="40%">Number</th>
+                            </tr>
+                        </thead>
+                        </table>           
+                    </td>
+                </tr>
+            </table>
+            <input id="stat_button" type="button" value="Вывести статистику" onclick="getStat()">
+        </div>
         
         <script type="text/javascript" src="javascript_8.js"></script>
     </body>
