@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/hw10.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+        <script nonce="undefined" src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+        <title>HW №10</title>
+        <h3>Выполнил студент группы ПИ19-2 Гришин Всеволод</h3>
+        <h3>Построение графика/диаграммы по полученным данным: Canvas</h3>
+        <h3>Использовал данные о велопарковках Москвы: <a target="_blank" href="https://data.mos.ru/opendata/7704786030-veloparkovki">данные</a></h3>
+    </head>
+    <body>
+        <meta charset="UTF-8">
+        <table width=100%>
+            <tr>
+                <td valign="top" id="right_column">
+                    <h3>Table of created forms</h3>
+                    
+                    <table id="resTbl" class="display">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th width="20%">Address</th>
+                            <th width="5%">Capacity</th>
+                            <th width="20%">Coordinates</th>
+                            <th width="5%"></th>
+                        </tr>
+                    </thead>
+                    </table>
+                    
+                </td>
+            </tr>
+        </table>
+        <div id="load_button">
+            <input id="loadFromServer" type="button" value="Загрузить данные в таблицу (API)" onclick="getFromApi()">
+            <input id="loadFromFile" type="button" value="Загрузить данные в таблицу (Файл)" onclick="getFromFile()">
+        </div>
+        <p></p>
+        <p></p>
+        <p></p>
+        <div id="stat">
+            <table width=100%>
+                <tr>
+                    <td>
+                        <table id="statTbl">
+                        <thead>
+                            <tr>
+                                <th width="60%">District</th>
+                                <th width="40%">Number</th>
+                            </tr>
+                        </thead>
+                        </table>           
+                    </td>
+                </tr>
+            </table>
+            <input id="stat_button" type="button" value="Вывести статистику" onclick="getStat()">
+        </div>
+        <div id="canvasChart">
+            <div id="chartContainer" style="height: 600px; width: 80%;"></div>
+            <div>
+                <input id="canvas_chart_button" type="button" value="Вывести диаграмму" onclick="drawHorizChart()">
+                <label>Минимальное кол-во парковок</label><input id="min_num_canvas" type="number" title="Введите минимальное значение" value=15>
+            </div>
+            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        </div>
+        <div id="zingChart">
+            <div id='myChart' style="height: 600px; width: 80%; min-height: 150px;"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
+            <div>
+                <input id="zing_chart_button" type="button" value="Вывести диаграмму" onclick="drawHorizChartZing()">
+                <label>Минимальное кол-во парковок</label><input id="min_num_zing" type="number" title="Введите минимальное значение" value=15>
+            </div>
+        </div>
+        
+
+        <script type="text/javascript" src="javascript_10.js"></script>
+    </body>
+</html>
