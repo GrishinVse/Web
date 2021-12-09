@@ -18,7 +18,9 @@ function DataFromJSON(data) {
     key_names = 'global_id|Address|Capacity'
     let coordinates_list = []
     let districts = new Map();
+    let capacity_values = new Map();
     for (let el = 0; el < data.length; el++) {
+        console.log(el)
         let parsed = data[el]["Cells"]
         let keys = Object.keys(parsed);
         let vals = []
@@ -36,10 +38,14 @@ function DataFromJSON(data) {
                     let district = parsed[keys[i]]
                     console.log("District Value = "+ district)
                     if (districts.has(district)) {
-                        let currVal = districts.get(district)
-                        districts.set(district, currVal+1)
+                        let districtCounts = districts.get(district)
+                        districts.set(district, districtCounts+1)
+                        
+                        let capacitySum = capacity_values.get(district)
+                        capacity_values.set(district, capacitySum + parsed["Capacity"])
                     } else {
                         districts.set(district, 1)
+                        capacity_values.set(district, 0)
                     }
                 }
             }
@@ -49,6 +55,7 @@ function DataFromJSON(data) {
     }
     alert("Загрузка данных закончилась")
     localStorage.setItem('districts', JSON.stringify(Array.from(districts.entries())));
+    localStorage.setItem('capacity_values', JSON.stringify(Array.from(capacity_values.entries())));
     localStorage.setItem('coordinates_list', JSON.stringify(coordinates_list));
     let json_file = tableToJson()
     localStorage.setItem('myStorage', JSON.stringify(json_file));
@@ -112,21 +119,33 @@ function getStat() {
 function drawHorizChart(){
 
     let districts = new Map(JSON.parse(localStorage.getItem('districts')));
-    //console.log(districts)
+    
+    let capacity_values = new Map(JSON.parse(localStorage.getItem('capacity_values')))
+    console.log("CAPACITY = ", capacity_values)
 
     let min_val = document.getElementById('min_num_canvas').value;
     console.log("MIN VAL = ",min_val)
 
-    let chartData = []
-
+    let lotsData = []
+    let curr_labels = []
     for (let key of districts.keys()){
         let label_value = key
         let y_value = districts.get(key)
         if (min_val <= y_value){
             console.log(y_value)
+            curr_labels.push(label_value)
             let record = {y: y_value, label: label_value};
-            chartData.push(record)
+            lotsData.push(record)
         }
+    }
+    
+    console.log("********************************************")
+
+    let capacityData = []
+    for (let key of curr_labels){
+        let y_value = capacity_values.get(key)
+        let record = {y: y_value, label: key};
+        capacityData.push(record)
     }
 
     var chart = new CanvasJS.Chart("chartContainer", {
@@ -148,10 +167,18 @@ function drawHorizChart(){
         },
         data: [{
             type: "bar",
-            name: "companies",
+            legendText: "Кол-во парковок",
+            showInLegend: true,
             axisYType: "secondary",
             color: "#014D65",
-            dataPoints: chartData
+            dataPoints: lotsData
+        }, {
+            type: "bar",
+            legendText: "Кол-во мест",
+            showInLegend: true,
+            axisYType: "secondary",
+            color: "#11b4d9",
+            dataPoints: capacityData
         }]
     });    
     chart.render();
@@ -161,6 +188,9 @@ function drawHorizChartZing(){
     let districts = new Map(JSON.parse(localStorage.getItem('districts')));
     let min_val = document.getElementById('min_num_zing').value;
     console.log("MIN VAL = ",min_val)
+
+    let capacity_values = new Map(JSON.parse(localStorage.getItem('capacity_values')))
+    console.log("CAPACITY = ", capacity_values)
 
     let chartData = []
     let label_list = []
@@ -177,8 +207,14 @@ function drawHorizChartZing(){
     }
     chartData.push({values: value_list})
 
-    console.log(label_list)
-    console.log(value_list)
+    let capacity_list = []
+    for (let key of label_list){
+        console.log("SELECTED AREAS = ",key)
+        console.log("AREA CAPACITY = ",capacity_values.get(key))
+        capacity_list.push(capacity_values.get(key))
+    }
+    chartData.push({values: capacity_list})
+
     console.log(chartData)
 
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
