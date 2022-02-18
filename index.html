@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Навигатор</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=7d0e27ec-26b2-47fb-be9a-03f20df0d3e2&lang=ru_RU"
+        type="text/javascript">
+        </script>
+    <script type="text/javascript">
+        var myMap;
+        var myRoute;
+
+
+        ymaps.ready(init);
+        function init() {
+            myMap = new ymaps.Map("map", {
+                //center: [55.76, 37.64], 
+                center: [55.15, 61.40],
+                zoom: 11,
+                controls: ['zoomControl', 'typeSelector']
+            });
+        }
+
+        function makeRoute() {
+            var pointFrom = document.getElementById('start_point').value;
+            var pointTo = document.getElementById('end_point').value;
+            var modeRoute = document.getElementById('route_mode').value;
+
+            if (pointFrom == '') {
+                document.getElementById('start_point').focus();
+                alert("Не указана точка старта");
+                return;
+            } else if (pointTo == '') {
+                document.getElementById('end_point').focus();
+                alert("Не указана конечная точка");
+                return;
+            }
+
+            myRoute = new ymaps.multiRouter.MultiRoute({
+                // Точки маршрута. Точки могут быть заданы как координатами, так и адресом. 
+                referencePoints: [pointFrom, pointTo],
+                params: {
+                    avoidTrafficJams : true,
+                    routingMode: modeRoute
+                }
+            }, {
+                
+                // Внешний вид линии маршрута.
+                routeStrokeWidth: 2,
+                routeStrokeColor: "#2c4e29",
+                // Внешний вид линии активного маршрута
+                routeActiveStrokeWidth: 6,
+                //routeActiveStrokeStile: 'solid',
+                routeActiveStrokeColor: "#35a42c",
+
+                // Автоматически устанавливать границы карты так,
+                // чтобы маршрут был виден целиком.
+                boundsAutoApply: true,
+            });
+
+            // Добавление маршрута на карту.
+            myMap.geoObjects.add(myRoute);
+
+            myRoute.model.events.add('requestsuccess', function() {
+                var activeRoute = myRoute.getActiveRoute();
+                // Выводит в консоль информацию
+                console.log("Distance = " + activeRoute.properties.get("distance").text);
+                console.log("Duration = " + activeRoute.properties.get("duration").text);
+            });
+
+        }
+
+        function clearMap() {
+            myMap.geoObjects.removeAll();
+            myRoute && myMap.geoObjects.remove(myRoute);
+        }
+        //
+    </script>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+        }
+        #block {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+        }
+        #start_point,  #end_point{
+            padding: 2;
+            height: 2vh;
+            width: 30%;
+            background: rgb(92, 221, 238);
+            border: solid 1px rgb(60, 141, 151);
+        }
+        .btn {
+            height: 3vh;
+            border-radius: 4px;
+            width: 14%;
+            background-color: rgb(233, 233, 194);
+        }
+        .btn:hover {
+            background-color: rgb(137, 241, 146);
+            font-style: italic;
+            box-shadow: 0 10px 10px rgb(104, 184, 111);
+        }
+        .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(51, 54, 51, 0.788);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="block">
+        <input id="start_point" type="text" placeholder="Адрес начальной точки" value="Челябинск, Академика Королёва, 5">
+        <input id="end_point" type="text" placeholder="Адрес конечной точки" value="Челябинск, Цвиллинга, 31">
+        <p><select id="route_mode" size="1">
+            <option selected value="driving">Автомобильный маршрут</option>
+            <option value="pedestrian">Пешеходный маршрут</option>
+            <option value="masstransit">Маршрут на общественном транспорте</option>
+            <option value="bicycle">Маршрут на велосипеде</option>
+        </select>
+        
+        <input type="button" class="btn" value="Построить маршрут" onclick="makeRoute()">
+        
+        <input type="button" class="btn" value="Очистить карту" onclick="clearMap()">
+    </div>
+    <div id="map" style="width: 100%; height: 85vh"></div>
+</body>
+</html>
