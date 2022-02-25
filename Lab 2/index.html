@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скоринг</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <form action="http://localhost:3000/scoring" method="POST">
+        <h1>Форма для заполнения</h1>
+        <p><i>Заполните форму</i></p>
+        <fieldset>
+            <legend>Контактная информация</legend>
+            <label for="name">Имя и фамилия<em>*</em></label>
+            <input type="text" placeholder="Вася Пупкин" value="Всеволод Гришин" autofocus required><br>
+            <label for="telephone">Номер телефона</label>
+            <input type="text" placeholder="(XXX)XXX-XX-XX" value="8 800 555 3535"><br>
+            <label for="email">Электронная почта<em>*</em></label>
+            <input type="email" placeholder="Введите свою почту" value="pypkin@gmail.com" autofocus required><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Данные для проверки</legend>
+            <label for="gender">Пол</label>
+            <select name="gender" id="gender">
+                <option value="male" selected>Мужской</option>
+                <option value="female">Женский</option>
+            </select><br>
+            <label for="birthDate">Дата рождения<em>*</em></label>
+            <input type="date" name="birthDate" id="birthDate" value="2000-07-22" required><br>
+            <label for="periodLife">Срок проживания в регионе (лет)<em>*</em></label>
+            <input type="number" name="periodLife" id="periodLife" min="0" max="100" value=10 required><br>
+            <label for="profession">Профессия</label>
+            <select name="profession" id="profession">
+                <option value="driver">Водитель</option>
+                <option value="policeman">Полицейский</option>
+                <option value="pilot">Пилот</option>
+                <option value="manager">Менеджер</option>
+                <option value="judge">Судья</option>
+                <option value="developer" selected>Программист</option>
+                <option value="teacher">Преподаватель</option>
+            </select><br>
+            <label for="sphere">Сфера деятельности</label>
+            <select name="sphere" id="sphere">
+                <option value="public">Общественная</option>
+                <option value="other" selected>Другая</option>
+            </select><br>
+            <label for="periodWork">Период работы в организации <em>*</em></label>
+            <input type="number" name="periodWork" id="periodWork" min="0" max="50" value=2 required><br>
+            <label for="bankAccount">Наличие банковскиго счета</label>
+            <input type="checkbox" name="bankAccount" id="bankAccount" checked><br>
+            <label for="realEstate">Наличие недвижимости</label>
+            <input type="checkbox" name="realEstate" id="realEstate"><br>
+            <label for="insurancePolicy">Наличие страхового полиса</label>
+            <input type="checkbox" name="insurancePolicy" id="insurancePolicy" checked><br>
+        </fieldset>
+        <br>
+        <input type="button" name="sendInfo" id="sendInfo" value="Отправить информацию на проверку" onclick="alert( 'Данные отправлены! Ожидайте ответа!')">
+    </form>
+</body>
+
+</html>
