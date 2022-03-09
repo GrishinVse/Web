@@ -16,11 +16,11 @@
         <fieldset>
             <legend>Контактная информация</legend>
             <label for="name">Имя и фамилия<em>*</em></label>
-            <input type="text" placeholder="Вася Пупкин" value="Всеволод Гришин" autofocus required><br>
+            <input type="text" name="name" placeholder="Вася Пупкин" value="Всеволод Гришин" autofocus required><br>
             <label for="telephone">Номер телефона</label>
-            <input type="text" placeholder="(XXX)XXX-XX-XX" value="8 800 555 3535"><br>
+            <input type="text" name="telephone" placeholder="(XXX)XXX-XX-XX" value="8 800 555 3535"><br>
             <label for="email">Электронная почта<em>*</em></label>
-            <input type="email" placeholder="Введите свою почту" value="pypkin@gmail.com" autofocus required><br>
+            <input type="email" name="email" placeholder="Введите свою почту" value="pypkin@gmail.com" autofocus required><br>
         </fieldset>
 
         <fieldset>
@@ -51,7 +51,7 @@
             </select><br>
             <label for="periodWork">Период работы в организации <em>*</em></label>
             <input type="number" name="periodWork" id="periodWork" min="0" max="50" value=2 required><br>
-            <label for="bankAccount">Наличие банковскиго счета</label>
+            <label for="bankAccount">Наличие банковского счета</label>
             <input type="checkbox" name="bankAccount" id="bankAccount" checked><br>
             <label for="realEstate">Наличие недвижимости</label>
             <input type="checkbox" name="realEstate" id="realEstate"><br>
@@ -59,7 +59,7 @@
             <input type="checkbox" name="insurancePolicy" id="insurancePolicy" checked><br>
         </fieldset>
         <br>
-        <input type="button" name="sendInfo" id="sendInfo" value="Отправить информацию на проверку" onclick="alert( 'Данные отправлены! Ожидайте ответа!')">
+        <input type="submit" id="sendInfo" value="Отправить информацию на проверку">
     </form>
 </body>
 
