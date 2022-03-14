@@ -114,3 +114,14 @@ input[type='submit']:active {
     background-color: #4CAF50;
     color: #7f9af5;
 }
+
+.btn {
+    display: inline-block;
+    background: #6f7c88;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 20px;
+}
