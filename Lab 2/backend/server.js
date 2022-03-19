@@ -1,8 +1,12 @@
 const express = require('express');
 const MongoClient = require("mongodb").MongoClient;
 const { futimesSync } = require('fs');
+const { post } = require('request');
 const app = express();
 const port = 3000;
+const request = require('request'); // отправка http-запросов на сторонние сервисы
+const rp = require('request-promise');
+//const cheerio = request('cheerio');
 var server = require('http').createServer(app);
 
 app.use(
@@ -85,7 +89,29 @@ function parseJson(json) {
 }
 
 app.post('/scoring', (req, res) => {
+    var options = {
+        method: 'post',
+        uri: 'http://localhost:8081/python',
+        body: req.body,
+        json: true
+    }
 
+    rp(options)
+        .then(function(parsedBody) {
+            res.send(parsedBody)
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+
+    /** 
+    request('http://localhost:8081/hello', (err, response, body) => {
+        if (err) return res.status(500).send({ message: err })
+        console.log(body);
+    })
+    **/
+
+    /*
     const url = "mongodb://localhost:3001/";
     const client = new MongoClient(url);
 
@@ -102,7 +128,7 @@ app.post('/scoring', (req, res) => {
             client.close();
         });
 
-        /*
+        
         db.command({ ping: 1 }, function(err, result) {
             if (!err) {
                 console.log("Подключение успешно уcтановлено!");
@@ -111,9 +137,9 @@ app.post('/scoring', (req, res) => {
             client.close();
             console.log("Подключение закрыто");
         });
-        */
+        
     });
-
+    
     let client_score = parseJson(req.body);
     console.log("CLIENT SCORE = ", client_score);
     if (client_score > 1.25) {
@@ -121,7 +147,10 @@ app.post('/scoring', (req, res) => {
     } else {
         res.send('К сожалению вам отказано в выдаче кредита!');
     }
+    */
 
+    //res.send("OK")
+    //res.send("<!DOCTYPE html><html lang='en'><head><h1>This is client Data</h1></head><body><p>{'name': 'Всеволод Гришин', 'telephone': '8 800 555 3535', 'email': 'pypkin@gmail.com', 'gender': 'female', 'birthDate': '2000-07-22', 'periodLife': '10', 'profession': 'developer', 'sphere': 'other', 'periodWork': '2', 'bankAccount': 'on', 'insurancePolicy': 'on'}</p></body></html>")
 })
 
 server.listen(port, function() {
@@ -156,3 +185,4 @@ app.post('/search', function(req, res) {
 })
 
 /*Запуск БД .\mongod --port=3001 --dbpath="D:\_ВУЗ\6 Семестр\Технологии разработки web приложений\Lab 2\data" */
+// nodemon
