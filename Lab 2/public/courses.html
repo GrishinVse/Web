@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Курс Валют</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <p>Choose valute: <select size="1" id="SelectedValute">
+        <option value="USD">USD (Доллар США)</option>
+        <option selected value="EUR">EUR (Евровалюта)</option>
+        <option value="CNY">CNY (Китайский юань)</option>
+    </select></p>
+    <input type="button" value="Press to get course" id="GetButton"><br>
+    <input type="text" id="CourseValue" placeholder="Current Valute Course">
+    <script src="/backend/courses.js"></script>
+</body>
+
+</html>
