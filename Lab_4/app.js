@@ -4,6 +4,7 @@ const cyrillicToTranslit = require('cyrillic-to-translit-js');
 const request = require('request');
 const rp = require('request-promise');
 const VKBot = require('node-vk-bot-api');
+const Markup = require('node-vk-bot-api/lib/markup');
 const bodyParser = require('body-parser');
 
 const port = 5000;
@@ -13,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const token = 'ebfa7e809a8c67aea41478403a235393617d808b85ddf2d1673a8651443c978685a667731e7e8745cad82'
-const confirmation_code = '363e7e9d'
+const confirmation_code = '546bc003'
 
 const bot = new VKBot({
     token: token,
@@ -26,13 +27,35 @@ const bot = new VKBot({
 app.post('/', bot.webhookCallback)
 
 bot.command('/start', (ctx) => {
-    ctx.reply('Приветствую тебя путник!\nДля получения погоды введи название города, например "Москва"')
+    ctx.reply('Приветствую тебя путник!\nХотите выбрать город из списка или ввести его название', null, Markup
+        .keyboard([
+            'Из списка',
+            'Ввести название',
+        ])
+        .oneTime(),
+    );
+})
+
+bot.command('Из списка', (ctx) => {
+    ctx.reply('Выберите город из списка', null, Markup
+        .keyboard([
+            'Москва',
+            'Челябинск',
+            'Красногорск',
+            'Владимир'
+        ], { columns: 2 })
+        .oneTime(),
+    );
+})
+
+bot.command('Ввести название', (ctx) => {
+    ctx.reply('Введите название города')
 })
 
 bot.on((ctx) => {
     let word = ctx.message.text
-    if (word.toLowerCase() == 'начать') {
-        ctx.reply('Приветствую тебя путник!\nДля получения погоды введи название города, например "Москва"')
+    if (word in ['Из списка', 'Ввести название']) {
+        ctx.reply('Введите название города')
     } else {
         let city = ctx.message.text
         city = cyrillicToTranslit().transform(city, '_');
@@ -67,8 +90,6 @@ bot.on((ctx) => {
                 // error
                 console.log(err);
             })
-
-
     }
 })
 
