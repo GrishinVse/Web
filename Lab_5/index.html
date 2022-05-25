@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        label {
+            width: 300px;
+            display: block;
+            vertical-align: middle;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect("http://localhost:5000");
+        socket.on('message', function(message) {
+            alert("Сервер прислал Вам сообщение: " + message);
+        });
+    </script>
+
+    <script>
+        async function sendMessage() {
+            var text = document.getElementById('textarea');
+            var email = document.getElementById('email');
+
+            var for_email = document.getElementById('for_email');
+
+            if (!email.value) {
+                email.focus();
+                email.scrollIntoView();
+                for_email.innerHTML = 'Введите почту получателя!'
+            } else {
+                for_email.innerHTML = ''
+                socket.emit('eventClient', {
+                    message: text.value,
+                    recipient: email.value
+                });
+
+                alert("Ваше сообщение отправлено!");
+            }
+        }
+    </script>
+
+    <div id="wrapper">
+        <p><label>Получатель: 
+            <input style="width: 300px;" type="email" id="email">
+        </label></p>
+        <p id="for_email"></p>
+        <label>Текст:
+            <textarea id="textarea" style="width: 300px; height: 150px;">Привет! Как дела?</textarea>
+        </label>
+    </div>
+    <div id="buttons">
+        <button onclick="sendMessage()" class="sendMessage">Отправить</button>
+        <button onclick="record()" class="record">Записать с микрофона</button>
+        <button onclick="voice()" class="voice">Озвучить текст</button>
+    </div>
+</body>
+
+</html>
