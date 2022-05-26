@@ -3,9 +3,10 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const nodemailer = require('nodemailer');
-const { config } = require('process');
 
 const port = 5000;
+
+const config = require('./config.json')
 
 io.on('connection', function(socket) {
     console.log("Клиент подключен");
@@ -25,7 +26,7 @@ io.on('connection', function(socket) {
         var result = transporter.sendMail({
             from: config.mail,
             to: data.recipient,
-            subject: 'Test',
+            subject: data.theme,
             text: data.message,
             html: data.message
         })
@@ -41,5 +42,3 @@ app.get('/', (req, res) => {
 http.listen(port, function() {
     console.log('Слушаю порт ' + port);
 });
-
-// Проверка заполненного поля почта

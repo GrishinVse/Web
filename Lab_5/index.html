@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <style>
         label {
             width: 300px;
@@ -29,38 +30,64 @@
         async function sendMessage() {
             var text = document.getElementById('textarea');
             var email = document.getElementById('email');
-
-            var for_email = document.getElementById('for_email');
+            var theme = document.getElementById('theme');
 
             if (!email.value) {
                 email.focus();
                 email.scrollIntoView();
-                for_email.innerHTML = 'Введите почту получателя!'
             } else {
-                for_email.innerHTML = ''
                 socket.emit('eventClient', {
-                    message: text.value,
-                    recipient: email.value
+                    recipient: email.value,
+                    theme: theme.value,
+                    message: text.value
                 });
 
                 alert("Ваше сообщение отправлено!");
             }
         }
+
+        var recognizer = new webkitSpeechRecognition();
+        recognizer.interimResult = true;
+        recognizer.continuous = true;
+        recognizer.lang = 'ru-RU';
+
+        function speechRecognition() {
+            recognizer.onresult = function(event) {
+                var result = event.results[event.resultIndex];
+
+                console.log(result[0].transcript.toLowerCase())
+                if (result[0].transcript.toLowerCase() == 'отправь письмо') {
+                    console.log("!!!!отправлю письмо!!!!")
+                    sendMessage()
+                } else {
+                    document.getElementById('textarea').value = result[0].transcript;
+                }
+            }
+            recognizer.start();
+        }
+
+        function stopRecognition() {
+            recognizer.stop();
+        }
     </script>
 
     <div id="wrapper">
         <p><label>Получатель: 
-            <input style="width: 300px;" type="email" id="email">
+            <input style="border: 1px solid grey; border-radius: 10px; width: 300px;" type="email" 
+            id="email" placeholder="Enter mail" value="VsevolodGrishinMSC@yandex.ru">
         </label></p>
-        <p id="for_email"></p>
+        <p><label>Тема письма: 
+            <input style="border: 1px solid grey; border-radius: 10px; width: 300px;" type="theme" 
+            id="theme" placeholder="Enter mail theme" value="Test">
+        </label></p>
         <label>Текст:
-            <textarea id="textarea" style="width: 300px; height: 150px;">Привет! Как дела?</textarea>
+            <textarea id="textarea" style="border: 1px solid grey; border-radius: 10px; width: 300px; height: 150px;">Привет! Как дела?</textarea>
         </label>
     </div>
     <div id="buttons">
-        <button onclick="sendMessage()" class="sendMessage">Отправить</button>
-        <button onclick="record()" class="record">Записать с микрофона</button>
-        <button onclick="voice()" class="voice">Озвучить текст</button>
+        <button onclick="sendMessage()" class="btn btn-warning">Отправить</button>
+        <button onclick="speechRecognition()" class="btn btn-success">Записать с микрофона</button>
+        <button onclick="stopRecognition()" class="btn btn-danger">Остановить запись</button>
     </div>
 </body>
 
