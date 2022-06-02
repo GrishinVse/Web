@@ -52,6 +52,9 @@
         recognizer.lang = 'ru-RU';
 
         function speechRecognition() {
+
+            document.getElementById('status').style = 'display: flex';
+
             recognizer.onresult = function(event) {
                 var result = event.results[event.resultIndex];
 
@@ -69,6 +72,24 @@
         function stopRecognition() {
             recognizer.stop();
         }
+
+        function speechText() {
+            var synth = window.speechSynthesis;
+            var voices = window.speechSynthesis.getVoices()
+            var inputTxt = document.getElementById('textarea').value;
+            if (inputTxt != '') {
+                synth.cancel();
+                console.log(inputTxt)
+                const utterance = new SpeechSynthesisUtterance(inputTxt);
+                utterance.voice = voices[5];
+                utterance.rate = 1.0;
+                utterance.pitch = 0.1;
+                synth.speak(utterance);
+            } else {
+                alert("Пустое поле текста!")
+            }
+
+        }
     </script>
 
     <div id="wrapper">
@@ -81,13 +102,15 @@
             id="theme" placeholder="Enter mail theme" value="Test">
         </label></p>
         <label>Текст:
-            <textarea id="textarea" style="border: 1px solid grey; border-radius: 10px; width: 300px; height: 150px;">Привет! Как дела?</textarea>
+            <textarea id="textarea" style="border: 1px solid grey; border-radius: 10px; width: 300px; height: 150px;">Проще позвонить, чем у кого-то занимать</textarea>
         </label>
     </div>
     <div id="buttons">
         <button onclick="sendMessage()" class="btn btn-warning">Отправить</button>
         <button onclick="speechRecognition()" class="btn btn-success">Записать с микрофона</button>
         <button onclick="stopRecognition()" class="btn btn-danger">Остановить запись</button>
+        <button onclick="speechText()" class="btn btn-info">Озвучить текст</button>
+        <p id="status" style="display: none;">Слушаю...</p>
     </div>
 </body>
 
